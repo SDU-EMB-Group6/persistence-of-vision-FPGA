@@ -14,3 +14,7 @@
 
 ## Layout set-up folders.
 **/ui/**
+
+## Block design auxiliary files.
+**/bd/**.bxml
+**/bd/**/ip/
