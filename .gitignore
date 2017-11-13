@@ -21,3 +21,8 @@
 ## Block design auxiliary files.
 **/bd/**/ip/
 **/bd/mref/
+
+## Synthesis files
+**/hw_handoff/
+**/ipshared/
+**.hwdef
