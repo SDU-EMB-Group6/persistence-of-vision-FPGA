@@ -12,9 +12,12 @@
 **.log
 **.jou
 
+## Board XML files
+**.bxml
+
 ## Layout set-up folders.
 **/ui/**
 
 ## Block design auxiliary files.
-**/bd/**.bxml
 **/bd/**/ip/
+**/bd/mref/
