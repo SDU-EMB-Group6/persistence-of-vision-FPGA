@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
---Date        : Mon Nov 20 14:34:18 2017
+--Date        : Tue Nov 28 14:02:10 2017
 --Host        : javi-SAT-L850-Ubuntu running 64-bit Ubuntu 16.04.3 LTS
 --Command     : generate_target POV_block_design.bd
 --Design      : POV_block_design
@@ -133,6 +133,7 @@ architecture STRUCTURE of POV_block_design is
   component POV_block_design_PWM_generator_0_0 is
   port (
     clk_200mhz_in : in STD_LOGIC;
+    pwm_duty_in : in STD_LOGIC_VECTOR ( 7 downto 0 );
     pwm_out : out STD_LOGIC
   );
   end component POV_block_design_PWM_generator_0_0;
@@ -141,7 +142,8 @@ architecture STRUCTURE of POV_block_design is
     clk_i : in STD_LOGIC;
     rx_i : in STD_LOGIC;
     tx_o : out STD_LOGIC;
-    led_o : out STD_LOGIC_VECTOR ( 7 downto 0 )
+    led_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    duty_cycle_o : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component POV_block_design_unity_ctrl_0_0;
   signal PWM_generator_0_pwm_out : STD_LOGIC;
@@ -172,6 +174,7 @@ architecture STRUCTURE of POV_block_design is
   signal processing_system7_0_FIXED_IO_PS_SRSTB : STD_LOGIC;
   signal rx_i_1 : STD_LOGIC;
   signal sensors_in_1 : STD_LOGIC_VECTOR ( 2 downto 0 );
+  signal unity_ctrl_0_duty_cycle_o : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal unity_ctrl_0_led_o : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal unity_ctrl_0_tx_o : STD_LOGIC;
   signal NLW_processing_system7_0_FCLK_RESET0_N_UNCONNECTED : STD_LOGIC;
@@ -217,6 +220,7 @@ begin
 PWM_generator_0: component POV_block_design_PWM_generator_0_0
      port map (
       clk_200mhz_in => processing_system7_0_FCLK_CLK1,
+      pwm_duty_in(7 downto 0) => unity_ctrl_0_duty_cycle_o(7 downto 0),
       pwm_out => PWM_generator_0_pwm_out
     );
 bldc_decoder_0: component POV_block_design_bldc_decoder_0_0
@@ -302,6 +306,7 @@ processing_system7_0: component POV_block_design_processing_system7_0_0
 unity_ctrl_0: component POV_block_design_unity_ctrl_0_0
      port map (
       clk_i => processing_system7_0_FCLK_CLK1,
+      duty_cycle_o(7 downto 0) => unity_ctrl_0_duty_cycle_o(7 downto 0),
       led_o(7 downto 0) => unity_ctrl_0_led_o(7 downto 0),
       rx_i => rx_i_1,
       tx_o => unity_ctrl_0_tx_o

@@ -788,6 +788,11 @@
         <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="tx_o"/>
         <spirit:externalPortReference spirit:portRef="tx_o"/>
       </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>unity_ctrl_0_duty_cycle_o</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="duty_cycle_o"/>
+        <spirit:internalPortReference spirit:componentRef="PWM_generator_0" spirit:portRef="pwm_duty_in"/>
+      </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>
       <spirit:hierConnection spirit:interfaceRef="DDR/processing_system7_0_DDR">

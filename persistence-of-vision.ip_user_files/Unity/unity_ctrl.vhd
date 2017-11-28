@@ -32,12 +32,13 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity unity_ctrl is
-    port ( clk_i    : in STD_LOGIC;
+    port ( clk_i        : in STD_LOGIC;
            
-           rx_i     : in STD_LOGIC;
-           tx_o     : out STD_LOGIC;
+           rx_i         : in STD_LOGIC;
+           tx_o         : out STD_LOGIC;
            
-           led_o   : out STD_LOGIC_VECTOR(7 downto 0)
+           led_o        : out STD_LOGIC_VECTOR(7 downto 0);
+           duty_cycle_o : out STD_LOGIC_VECTOR(7 downto 0)
            );
 end unity_ctrl;
 
@@ -128,6 +129,7 @@ if(rising_edge(unity_clk)) then
     if(write_mem = '1') then
         case Umem_addr_i is
           when "000100" => led_o <= mem_data_out(7 downto 0);
+          when "000101" => duty_cycle_o <= mem_data_out(7 downto 0);
           when others =>
         end case;
     end if;

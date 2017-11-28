@@ -4,17 +4,20 @@ use IEEE.NUMERIC_STD.ALL;
 
 
 entity PWM_generator is
-    generic( CLK_FREQ   : integer := 200000000; -- 200 MHz clock
-             PWM_FREQ   : integer := 21000  -- 21 KHz pwm freq
+    generic( 
+            CLK_FREQ  : integer := 200000000; -- 200 MHz clock
+            PWM_FREQ  : integer := 21000  -- 21 KHz pwm freq
     );
-    Port( clk_200mhz_in : in std_logic;
-          pwm_out       : out std_logic := '0');
+    Port( 
+        clk_200mhz_in : in std_logic;
+        pwm_duty_in   : std_logic_vector (7 downto 0) := x"80";
+        pwm_out       : out std_logic := '0'
+        );
 end PWM_generator;
 
 architecture Behavioral of PWM_generator is
     constant period : integer := CLK_FREQ / (PWM_FREQ*512);
     
-    signal pwm_duty_in      : std_logic_vector (7 downto 0) := x"80";
     signal count            : integer := 0;
     signal count_direction  : std_logic := '0';
     signal scaled_CLK       : std_logic := '0';
