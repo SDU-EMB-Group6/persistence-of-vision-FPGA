@@ -7,8 +7,7 @@ Follow these instructions for correctly compiling the project
 - Open the block design
 - Open the elaborated design
 - Go to File > Import > Import I/O ports. Once in the browser, open the .xdc file    at <project-dir>/persistence-of-vision.srcs/constrs_1/new/
-- Save again the constraints file (preferably with the same name). This step is
-necessary, as Vivado does not recognise the imported file, only the one saved from   the local project.
+- Save again the constraints file (preferably with the same name). This step is necessary, as Vivado does not recognise the imported file, only the one saved from   the local project.
 - Generate the bitstream
 
 Programming the FPGA and Setting-up the processor
