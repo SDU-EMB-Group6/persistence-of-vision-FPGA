@@ -5,14 +5,15 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity leds_controller is
     generic (
-        frame_len   : integer := 32
+        FRAME_LEN   : integer := 32;
+        PIXEL_LEN   : integer := 10
         );
     port (
         clk_i       : in std_logic;
         bit_clk     : in std_logic;
         write_mem   : in std_logic;
         Umem_addr   : in std_logic_vector(5 downto 0);
-        data_in : in std_logic_vector(frame_len-1 downto 0);
+        data_in     : in std_logic_vector(FRAME_LEN-1 downto 0);
 
         data_out    : out std_logic;
         clk_out     : out std_logic
@@ -23,40 +24,72 @@ architecture Behavioral of leds_controller is
 
 
     signal shift_counter    : integer := 0;
-    signal pixel_data       : std_logic_vector(frame_len-1 downto 0);
-    clk_out <= (others => '1');
+    signal pixel_counter    : integer := 0;
+    signal send_data        : std_logic_vector(FRAME_LEN-1 downto 0);
+    signal pixel_data       : std_logic_vector(FRAME_LEN-1 downto 0);
+    signal start_frame      : std_logic_vector(FRAME_LEN-1 downto 0) 
+                                    := (others => '0');
+    signal end_frame        : std_logic_vector(FRAME_LEN-1 downto 0) 
+                                    := (others => '1');
+
+begin
+    clk_out <= bit_clk;
 ----------------------------------------------------------------------
 -- This process handles data from memory
 ----------------------------------------------------------------------
     process (clk_i, Umem_addr, write_mem)   
     begin
     --delay_phase_shift_out <= delay_phase_shift;
-    if(rising_edge(clk_i)) then
+    if (rising_edge(clk_i)) then
     --    if(write_mem = '0') then
         if(write_mem = '1') then
             case Umem_addr is
-              when "000110" => pixel_data <= data_in(frame_len-1 downto 0);
+              when "000110" => pixel_data <= data_in(FRAME_LEN-1 downto 0);
               when others =>
             end case;
         end if;
     end if;
     end process;
 
+-- Construction of the output data.
+    process(clk_i)
+    begin
+    if rising_edge(clk_i) then
+        if (pixel_counter = 0) then
+            send_data <= start_frame;
+        elsif (pixel_counter = PIXEL_LEN+2-1) then
+            send_data <= end_frame;
+        else
+            send_data <= pixel_data;
+        end if;
+    end if;
+    end process;
+
+
 -- Evolution of the shift register counter
     process (bit_clk)
-    if (rising_edge(clk_i)) then
-        if (shift_counter >= frame_len-1) then
-            shift_counter := shift_counter + 1;
+    begin
+    if rising_edge(clk_i) then
+        if (shift_counter >= FRAME_LEN-1) then
+            shift_counter <= shift_counter + 1;
         else
-            shift_counter := 0;
+            shift_counter <= 0;
+            -- Increase the pixel counter, or set it to 0 when reaches the
+            -- Data frame length.
+            if (pixel_counter = PIXEL_LEN+2-1) then
+                pixel_counter <= 0;
+            else
+                pixel_counter <= pixel_counter + 1;
+            end if;
         end if;
     end if;
     end process;
 
 -- Serialization of the input data.
     process (bit_clk)
-    if (rising_edge(bit_clk)) then
-        data_out <= data_in(shift_counter);
+    begin
+    if rising_edge(bit_clk) then
+        data_out <= send_data(shift_counter);
     end if;
     end process;
 

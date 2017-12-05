@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
---Date        : Tue Nov 28 14:02:10 2017
+--Date        : Tue Dec  5 17:46:35 2017
 --Host        : javi-SAT-L850-Ubuntu running 64-bit Ubuntu 16.04.3 LTS
 --Command     : generate_target POV_block_design_wrapper.bd
 --Design      : POV_block_design_wrapper
@@ -34,6 +34,8 @@ entity POV_block_design_wrapper is
     FIXED_IO_ps_clk : inout STD_LOGIC;
     FIXED_IO_ps_porb : inout STD_LOGIC;
     FIXED_IO_ps_srstb : inout STD_LOGIC;
+    clk_out : out STD_LOGIC;
+    data_out : out STD_LOGIC;
     in_halfbridge_out : out STD_LOGIC_VECTOR ( 2 downto 0 );
     inhibit_out : out STD_LOGIC_VECTOR ( 2 downto 0 );
     led_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
@@ -72,7 +74,9 @@ architecture STRUCTURE of POV_block_design_wrapper is
     inhibit_out : out STD_LOGIC_VECTOR ( 2 downto 0 );
     led_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
     rx_i : in STD_LOGIC;
-    tx_o : out STD_LOGIC
+    tx_o : out STD_LOGIC;
+    data_out : out STD_LOGIC;
+    clk_out : out STD_LOGIC
   );
   end component POV_block_design;
 begin
@@ -99,6 +103,8 @@ POV_block_design_i: component POV_block_design
       FIXED_IO_ps_clk => FIXED_IO_ps_clk,
       FIXED_IO_ps_porb => FIXED_IO_ps_porb,
       FIXED_IO_ps_srstb => FIXED_IO_ps_srstb,
+      clk_out => clk_out,
+      data_out => data_out,
       in_halfbridge_out(2 downto 0) => in_halfbridge_out(2 downto 0),
       inhibit_out(2 downto 0) => inhibit_out(2 downto 0),
       led_o(7 downto 0) => led_o(7 downto 0),

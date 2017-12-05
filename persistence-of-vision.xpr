@@ -287,6 +287,12 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PIPUSERFILESDIR/leds_controller.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/bd/POV_block_design/POV_block_design.bd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -296,8 +302,14 @@
         <CompFileExtendedInfo CompFileName="POV_block_design.bd" FileRelPathName="ip/POV_block_design_PWM_generator_0_0/POV_block_design_PWM_generator_0_0.xci">
           <Proxy FileSetName="POV_block_design_PWM_generator_0_0"/>
         </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="POV_block_design.bd" FileRelPathName="ip/POV_block_design_processing_system7_0_0/POV_block_design_processing_system7_0_0.xci">
+          <Proxy FileSetName="POV_block_design_processing_system7_0_0"/>
+        </CompFileExtendedInfo>
         <CompFileExtendedInfo CompFileName="POV_block_design.bd" FileRelPathName="ip/POV_block_design_unity_ctrl_0_0/POV_block_design_unity_ctrl_0_0.xci">
           <Proxy FileSetName="POV_block_design_unity_ctrl_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="POV_block_design.bd" FileRelPathName="ip/POV_block_design_leds_controller_0_0/POV_block_design_leds_controller_0_0.xci">
+          <Proxy FileSetName="POV_block_design_leds_controller_0_0"/>
         </CompFileExtendedInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/bd/POV_block_design/hdl/POV_block_design_wrapper.vhd">
@@ -343,9 +355,21 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
+    <FileSet Name="POV_block_design_processing_system7_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/POV_block_design_processing_system7_0_0">
+      <Config>
+        <Option Name="TopModule" Val="POV_block_design_processing_system7_0_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
     <FileSet Name="POV_block_design_unity_ctrl_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/POV_block_design_unity_ctrl_0_0">
       <Config>
         <Option Name="TopModule" Val="POV_block_design_unity_ctrl_0_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="POV_block_design_leds_controller_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/POV_block_design_leds_controller_0_0">
+      <Config>
+        <Option Name="TopModule" Val="POV_block_design_leds_controller_0_0"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
@@ -372,19 +396,27 @@
     </Simulator>
   </Simulators>
   <Runs Version="1" Minor="10">
-    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7z010clg225-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" State="current" IncludeInArchive="true">
+    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7z010clg225-1" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" State="current" Dir="$PRUNDIR/synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017"/>
         <Step Id="synth_design"/>
       </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
       <ReportStrategy/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
     <Run Id="POV_block_design_PWM_generator_0_0_synth_1" Type="Ft3:Synth" SrcSet="POV_block_design_PWM_generator_0_0" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_PWM_generator_0_0" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/POV_block_design_PWM_generator_0_0_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+    </Run>
+    <Run Id="POV_block_design_processing_system7_0_0_synth_1" Type="Ft3:Synth" SrcSet="POV_block_design_processing_system7_0_0" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_processing_system7_0_0" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/POV_block_design_processing_system7_0_0_synth_1" IncludeInArchive="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -393,6 +425,15 @@
     </Run>
     <Run Id="POV_block_design_unity_ctrl_0_0_synth_1" Type="Ft3:Synth" SrcSet="POV_block_design_unity_ctrl_0_0" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_unity_ctrl_0_0" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/POV_block_design_unity_ctrl_0_0_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+    </Run>
+    <Run Id="POV_block_design_leds_controller_0_0_synth_1" Type="Ft3:Synth" SrcSet="POV_block_design_leds_controller_0_0" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_leds_controller_0_0" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/POV_block_design_leds_controller_0_0_synth_1" IncludeInArchive="true">
+      <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017">
           <Desc>Vivado Synthesis Defaults</Desc>
         </StratHandle>
@@ -402,7 +443,24 @@
       <ReportStrategy/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg225-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." State="current" SynthRun="synth_1" IncludeInArchive="true">
+    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg225-1" ConstrsSet="constrs_1" Description="Default settings for Implementation." State="current" Dir="$PRUNDIR/impl_1" SynthRun="synth_1" IncludeInArchive="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+    </Run>
+    <Run Id="POV_block_design_PWM_generator_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_PWM_generator_0_0" Description="Default settings for Implementation." SynthRun="POV_block_design_PWM_generator_0_0_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017"/>
         <Step Id="init_design"/>
@@ -418,11 +476,9 @@
       <ReportStrategy/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="POV_block_design_PWM_generator_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_PWM_generator_0_0" Description="Default settings for Implementation." SynthRun="POV_block_design_PWM_generator_0_0_synth_1" IncludeInArchive="false">
+    <Run Id="POV_block_design_processing_system7_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_processing_system7_0_0" Description="Default settings for Implementation." SynthRun="POV_block_design_processing_system7_0_0_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -437,6 +493,22 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
     <Run Id="POV_block_design_unity_ctrl_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_unity_ctrl_0_0" Description="Default settings for Implementation." SynthRun="POV_block_design_unity_ctrl_0_0_synth_1" IncludeInArchive="false">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+    </Run>
+    <Run Id="POV_block_design_leds_controller_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg225-1" ConstrsSet="POV_block_design_leds_controller_0_0" Description="Default settings for Implementation." SynthRun="POV_block_design_leds_controller_0_0_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2017">
           <Desc>Default settings for Implementation.</Desc>

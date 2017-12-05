@@ -40,9 +40,10 @@ entity unity_ctrl is
            led_o        : out std_logic_vector(7 downto 0);
            duty_cycle_o : out std_logic_vector(7 downto 0);
 
-           write_mem    : out std_logic;
-           Umem_addr_i  : out std_logic_vector(5 downto 0);
-           mem_data_out : out std_logic_vector(31 downto 0)
+           clk_out      : out std_logic;
+           write_o      : out std_logic;
+           addr_o       : out std_logic_vector(5 downto 0);
+           data_o       : out std_logic_vector(31 downto 0)
            );
 end unity_ctrl;
 
@@ -73,13 +74,13 @@ architecture Behavioral of unity_ctrl is
     signal mem_we       : std_logic;
     signal mem_addr     : std_logic_vector(5 downto 0); 
     signal mem_data_in  : std_logic_vector(31 downto 0);
-    --signal mem_data_out : std_logic_vector(31 downto 0);
+    signal mem_data_out : std_logic_vector(31 downto 0);
     signal mem_w_ack    : std_logic;
     signal mem_w_err    : std_logic;
 
-    --signal write_mem        : std_logic;
+    signal write_mem        : std_logic;
     signal delay            : std_logic;
-    --signal Umem_addr_i      : std_logic_vector(5 downto 0);
+    signal Umem_addr_i      : std_logic_vector(5 downto 0);
 
     type unity_state is (state_1, state_2, state_3);
     signal pr_state, nx_state: unity_state;
@@ -88,7 +89,10 @@ architecture Behavioral of unity_ctrl is
     signal unity_clk            : std_logic;
 
     begin
-        UNITY : wrap_unity
+    write_o <= write_mem;
+    addr_o  <= Umem_addr_i;
+    data_o  <= mem_data_out;
+    UNITY : wrap_unity
         port map(
             clk_i       => clk_i, 
             rx_i        => rx_i, 
