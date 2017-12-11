@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<bd:repository xmlns:bd="http://www.xilinx.com/bd" bd:BoundaryCRC="0xC47AF1A93E1361CC" bd:device="xc7z010clg225-1" bd:isValidated="true" bd:synthFlowMode="Hierarchical" bd:tool_version="2017.2" bd:top="POV_block_design" bd:version="1.00.a">
+<bd:repository xmlns:bd="http://www.xilinx.com/bd" bd:BoundaryCRC="0xCC6BFD5336026D36" bd:device="xc7z010clg225-1" bd:isValidated="true" bd:synthFlowMode="Hierarchical" bd:tool_version="2017.2" bd:top="POV_block_design" bd:version="1.00.a">
 
   <spirit:component xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009">
     <spirit:vendor>xilinx.com</spirit:vendor>
@@ -209,13 +209,13 @@
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>data_out</spirit:name>
+          <spirit:name>clk_bit</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
           </spirit:wire>
         </spirit:port>
         <spirit:port>
-          <spirit:name>clk_out</spirit:name>
+          <spirit:name>data_out</spirit:name>
           <spirit:wire>
             <spirit:direction>out</spirit:direction>
           </spirit:wire>
@@ -791,17 +791,6 @@
         <spirit:internalPortReference spirit:componentRef="bldc_decoder_0" spirit:portRef="pwm"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
-        <spirit:name>processing_system7_0_FCLK_CLK1</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="processing_system7_0" spirit:portRef="FCLK_CLK1"/>
-        <spirit:internalPortReference spirit:componentRef="PWM_generator_0" spirit:portRef="clk_200mhz_in"/>
-        <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="clk_i"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>unity_ctrl_0_led_o</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="led_o"/>
-        <spirit:externalPortReference spirit:portRef="led_o"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
         <spirit:name>rx_i_1</spirit:name>
         <spirit:externalPortReference spirit:portRef="rx_i"/>
         <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="rx_i"/>
@@ -815,16 +804,6 @@
         <spirit:name>unity_ctrl_0_duty_cycle_o</spirit:name>
         <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="duty_cycle_o"/>
         <spirit:internalPortReference spirit:componentRef="PWM_generator_0" spirit:portRef="pwm_duty_in"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>unity_ctrl_0_clk_out</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="clk_out"/>
-        <spirit:internalPortReference spirit:componentRef="leds_controller_0" spirit:portRef="clk_i"/>
-      </spirit:adHocConnection>
-      <spirit:adHocConnection>
-        <spirit:name>processing_system7_0_FCLK_CLK2</spirit:name>
-        <spirit:internalPortReference spirit:componentRef="processing_system7_0" spirit:portRef="FCLK_CLK2"/>
-        <spirit:internalPortReference spirit:componentRef="leds_controller_0" spirit:portRef="bit_clk"/>
       </spirit:adHocConnection>
       <spirit:adHocConnection>
         <spirit:name>unity_ctrl_0_write_mem</spirit:name>
@@ -849,7 +828,23 @@
       <spirit:adHocConnection>
         <spirit:name>leds_controller_0_clk_out</spirit:name>
         <spirit:internalPortReference spirit:componentRef="leds_controller_0" spirit:portRef="clk_out"/>
-        <spirit:externalPortReference spirit:portRef="clk_out"/>
+        <spirit:externalPortReference spirit:portRef="clk_bit"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>processing_system7_0_FCLK_CLK1</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="processing_system7_0" spirit:portRef="FCLK_CLK1"/>
+        <spirit:internalPortReference spirit:componentRef="PWM_generator_0" spirit:portRef="clk_200mhz_in"/>
+        <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="clk_i"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>unity_ctrl_0_clk_out</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="unity_ctrl_0" spirit:portRef="clk_out"/>
+        <spirit:internalPortReference spirit:componentRef="leds_controller_0" spirit:portRef="clk_i"/>
+      </spirit:adHocConnection>
+      <spirit:adHocConnection>
+        <spirit:name>leds_controller_0_led_o</spirit:name>
+        <spirit:internalPortReference spirit:componentRef="leds_controller_0" spirit:portRef="led_o"/>
+        <spirit:externalPortReference spirit:portRef="led_o"/>
       </spirit:adHocConnection>
     </spirit:adHocConnections>
     <spirit:hierConnections>

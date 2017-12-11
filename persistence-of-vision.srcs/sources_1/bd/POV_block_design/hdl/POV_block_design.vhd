@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
---Date        : Tue Dec  5 19:14:07 2017
+--Date        : Mon Dec 11 15:32:16 2017
 --Host        : javi-SAT-L850-Ubuntu running 64-bit Ubuntu 16.04.3 LTS
 --Command     : generate_target POV_block_design.bd
 --Design      : POV_block_design
@@ -34,7 +34,7 @@ entity POV_block_design is
     FIXED_IO_ps_clk : inout STD_LOGIC;
     FIXED_IO_ps_porb : inout STD_LOGIC;
     FIXED_IO_ps_srstb : inout STD_LOGIC;
-    clk_out : out STD_LOGIC;
+    clk_bit : out STD_LOGIC;
     data_out : out STD_LOGIC;
     in_halfbridge_out : out STD_LOGIC_VECTOR ( 2 downto 0 );
     inhibit_out : out STD_LOGIC_VECTOR ( 2 downto 0 );
@@ -43,10 +43,10 @@ entity POV_block_design is
     sensors_in : in STD_LOGIC_VECTOR ( 2 downto 0 );
     tx_o : out STD_LOGIC
   );
-  attribute CORE_GENERATION_INFO : string;
-  attribute CORE_GENERATION_INFO of POV_block_design : entity is "POV_block_design,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=POV_block_design,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=5,numReposBlks=5,numNonXlnxBlks=4,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_ps7_cnt=3,synth_mode=OOC_per_IP}";
-  attribute HW_HANDOFF : string;
-  attribute HW_HANDOFF of POV_block_design : entity is "POV_block_design.hwdef";
+  attribute core_generation_info : string;
+  attribute core_generation_info of POV_block_design : entity is "POV_block_design,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=POV_block_design,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=5,numReposBlks=5,numNonXlnxBlks=4,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_ps7_cnt=3,synth_mode=OOC_per_IP}";
+  attribute hw_handoff : string;
+  attribute hw_handoff of POV_block_design : entity is "POV_block_design.hwdef";
 end POV_block_design;
 
 architecture STRUCTURE of POV_block_design is
@@ -145,7 +145,6 @@ architecture STRUCTURE of POV_block_design is
     clk_i : in STD_LOGIC;
     rx_i : in STD_LOGIC;
     tx_o : out STD_LOGIC;
-    led_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
     duty_cycle_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
     clk_out : out STD_LOGIC;
     write_o : out STD_LOGIC;
@@ -156,10 +155,10 @@ architecture STRUCTURE of POV_block_design is
   component POV_block_design_leds_controller_0_0 is
   port (
     clk_i : in STD_LOGIC;
-    bit_clk : in STD_LOGIC;
     write_mem : in STD_LOGIC;
     Umem_addr : in STD_LOGIC_VECTOR ( 5 downto 0 );
     data_in : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    led_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
     data_out : out STD_LOGIC;
     clk_out : out STD_LOGIC
   );
@@ -169,6 +168,7 @@ architecture STRUCTURE of POV_block_design is
   signal bldc_decoder_0_inhibit_out : STD_LOGIC_VECTOR ( 2 downto 0 );
   signal leds_controller_0_clk_out : STD_LOGIC;
   signal leds_controller_0_data_out : STD_LOGIC;
+  signal leds_controller_0_led_o : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal processing_system7_0_DDR_ADDR : STD_LOGIC_VECTOR ( 14 downto 0 );
   signal processing_system7_0_DDR_BA : STD_LOGIC_VECTOR ( 2 downto 0 );
   signal processing_system7_0_DDR_CAS_N : STD_LOGIC;
@@ -186,7 +186,6 @@ architecture STRUCTURE of POV_block_design is
   signal processing_system7_0_DDR_WE_N : STD_LOGIC;
   signal processing_system7_0_FCLK_CLK0 : STD_LOGIC;
   signal processing_system7_0_FCLK_CLK1 : STD_LOGIC;
-  signal processing_system7_0_FCLK_CLK2 : STD_LOGIC;
   signal processing_system7_0_FIXED_IO_DDR_VRN : STD_LOGIC;
   signal processing_system7_0_FIXED_IO_DDR_VRP : STD_LOGIC;
   signal processing_system7_0_FIXED_IO_MIO : STD_LOGIC_VECTOR ( 31 downto 0 );
@@ -198,10 +197,10 @@ architecture STRUCTURE of POV_block_design is
   signal unity_ctrl_0_Umem_addr_i : STD_LOGIC_VECTOR ( 5 downto 0 );
   signal unity_ctrl_0_clk_out : STD_LOGIC;
   signal unity_ctrl_0_duty_cycle_o : STD_LOGIC_VECTOR ( 7 downto 0 );
-  signal unity_ctrl_0_led_o : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal unity_ctrl_0_mem_data_out : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal unity_ctrl_0_tx_o : STD_LOGIC;
   signal unity_ctrl_0_write_mem : STD_LOGIC;
+  signal NLW_processing_system7_0_FCLK_CLK2_UNCONNECTED : STD_LOGIC;
   signal NLW_processing_system7_0_FCLK_RESET0_N_UNCONNECTED : STD_LOGIC;
   signal NLW_processing_system7_0_M_AXI_GP0_ARVALID_UNCONNECTED : STD_LOGIC;
   signal NLW_processing_system7_0_M_AXI_GP0_AWVALID_UNCONNECTED : STD_LOGIC;
@@ -236,11 +235,11 @@ architecture STRUCTURE of POV_block_design is
   signal NLW_processing_system7_0_M_AXI_GP0_WSTRB_UNCONNECTED : STD_LOGIC_VECTOR ( 3 downto 0 );
   signal NLW_processing_system7_0_USB0_PORT_INDCTL_UNCONNECTED : STD_LOGIC_VECTOR ( 1 downto 0 );
 begin
-  clk_out <= leds_controller_0_clk_out;
+  clk_bit <= leds_controller_0_clk_out;
   data_out <= leds_controller_0_data_out;
   in_halfbridge_out(2 downto 0) <= bldc_decoder_0_in_halfbridge_out(2 downto 0);
   inhibit_out(2 downto 0) <= bldc_decoder_0_inhibit_out(2 downto 0);
-  led_o(7 downto 0) <= unity_ctrl_0_led_o(7 downto 0);
+  led_o(7 downto 0) <= leds_controller_0_led_o(7 downto 0);
   rx_i_1 <= rx_i;
   sensors_in_1(2 downto 0) <= sensors_in(2 downto 0);
   tx_o <= unity_ctrl_0_tx_o;
@@ -260,11 +259,11 @@ bldc_decoder_0: component POV_block_design_bldc_decoder_0_0
 leds_controller_0: component POV_block_design_leds_controller_0_0
      port map (
       Umem_addr(5 downto 0) => unity_ctrl_0_Umem_addr_i(5 downto 0),
-      bit_clk => processing_system7_0_FCLK_CLK2,
       clk_i => unity_ctrl_0_clk_out,
       clk_out => leds_controller_0_clk_out,
       data_in(31 downto 0) => unity_ctrl_0_mem_data_out(31 downto 0),
       data_out => leds_controller_0_data_out,
+      led_o(7 downto 0) => leds_controller_0_led_o(7 downto 0),
       write_mem => unity_ctrl_0_write_mem
     );
 processing_system7_0: component POV_block_design_processing_system7_0_0
@@ -288,7 +287,7 @@ processing_system7_0: component POV_block_design_processing_system7_0_0
       DDR_WEB => DDR_we_n,
       FCLK_CLK0 => processing_system7_0_FCLK_CLK0,
       FCLK_CLK1 => processing_system7_0_FCLK_CLK1,
-      FCLK_CLK2 => processing_system7_0_FCLK_CLK2,
+      FCLK_CLK2 => NLW_processing_system7_0_FCLK_CLK2_UNCONNECTED,
       FCLK_RESET0_N => NLW_processing_system7_0_FCLK_RESET0_N_UNCONNECTED,
       IRQ_F2P(0) => '0',
       MIO(31 downto 0) => FIXED_IO_mio(31 downto 0),
@@ -348,7 +347,6 @@ unity_ctrl_0: component POV_block_design_unity_ctrl_0_0
       clk_out => unity_ctrl_0_clk_out,
       data_o(31 downto 0) => unity_ctrl_0_mem_data_out(31 downto 0),
       duty_cycle_o(7 downto 0) => unity_ctrl_0_duty_cycle_o(7 downto 0),
-      led_o(7 downto 0) => unity_ctrl_0_led_o(7 downto 0),
       rx_i => rx_i_1,
       tx_o => unity_ctrl_0_tx_o,
       write_o => unity_ctrl_0_write_mem
