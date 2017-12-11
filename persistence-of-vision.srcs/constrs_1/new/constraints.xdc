@@ -38,7 +38,8 @@ set_property IOSTANDARD LVCMOS33 [get_ports rx_i]
 set_property PACKAGE_PIN G12 [get_ports tx_o]
 set_property IOSTANDARD LVCMOS33 [get_ports tx_o]
 
-set_property IOSTANDARD LVCMOS33 [get_ports clk_out]
 set_property IOSTANDARD LVCMOS33 [get_ports data_out]
 set_property PACKAGE_PIN M12 [get_ports data_out]
-set_property PACKAGE_PIN N13 [get_ports clk_out]
+
+set_property IOSTANDARD LVCMOS33 [get_ports clk_bit]
+set_property PACKAGE_PIN N13 [get_ports clk_bit]
