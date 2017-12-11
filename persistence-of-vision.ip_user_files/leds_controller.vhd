@@ -10,11 +10,11 @@ entity leds_controller is
         );
     port (
         clk_i       : in std_logic;
-        bit_clk     : in std_logic;
         write_mem   : in std_logic;
         Umem_addr   : in std_logic_vector(5 downto 0);
         data_in     : in std_logic_vector(FRAME_LEN-1 downto 0);
 
+        led_o       : out std_logic_vector(7 downto 0);
         data_out    : out std_logic;
         clk_out     : out std_logic
            );
@@ -25,6 +25,8 @@ architecture Behavioral of leds_controller is
 
     signal shift_counter    : integer := 0;
     signal pixel_counter    : integer := 0;
+    signal clk_counter      : unsigned(7 downto 0) := (others => '0');
+    signal bit_clk          : std_logic := '0';
     signal send_data        : std_logic_vector(FRAME_LEN-1 downto 0);
     signal pixel_data       : std_logic_vector(FRAME_LEN-1 downto 0);
     signal start_frame      : std_logic_vector(FRAME_LEN-1 downto 0) 
@@ -34,6 +36,21 @@ architecture Behavioral of leds_controller is
 
 begin
     clk_out <= bit_clk;
+
+-- 1MHz clock generation
+    process (clk_i, clk_counter)
+    begin
+    --delay_phase_shift_out <= delay_phase_shift;
+    if (rising_edge(clk_i)) then
+        if (clk_counter = 24) then
+            clk_counter <= (others => '0');
+            bit_clk <= not(bit_clk);
+        else
+            clk_counter <= clk_counter + 1;
+        end if;
+    end if;
+    end process;
+
 ----------------------------------------------------------------------
 -- This process handles data from memory
 ----------------------------------------------------------------------
@@ -44,6 +61,7 @@ begin
     --    if(write_mem = '0') then
         if(write_mem = '1') then
             case Umem_addr is
+              when "000100" => led_o <= data_in(7 downto 0);
               when "000110" => pixel_data <= data_in(FRAME_LEN-1 downto 0);
               when others =>
             end case;

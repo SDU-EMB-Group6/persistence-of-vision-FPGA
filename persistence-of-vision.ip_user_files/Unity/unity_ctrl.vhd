@@ -37,7 +37,6 @@ entity unity_ctrl is
            rx_i         : in std_logic;
            tx_o         : out std_logic;
            
-           led_o        : out std_logic_vector(7 downto 0);
            duty_cycle_o : out std_logic_vector(7 downto 0);
 
            clk_out      : out std_logic;
@@ -92,6 +91,7 @@ architecture Behavioral of unity_ctrl is
     write_o <= write_mem;
     addr_o  <= Umem_addr_i;
     data_o  <= mem_data_out;
+    clk_out <= unity_clk;
     UNITY : wrap_unity
         port map(
             clk_i       => clk_i, 
@@ -136,7 +136,6 @@ architecture Behavioral of unity_ctrl is
     --    if(write_mem = '0') then
         if(write_mem = '1') then
             case Umem_addr_i is
-              when "000100" => led_o <= mem_data_out(7 downto 0);
               when "000101" => duty_cycle_o <= mem_data_out(7 downto 0);
               when others =>
             end case;
