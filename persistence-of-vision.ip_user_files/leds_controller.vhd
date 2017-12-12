@@ -14,17 +14,21 @@ entity leds_controller is
         Umem_addr   : in std_logic_vector(5 downto 0);
         data_in     : in std_logic_vector(FRAME_LEN-1 downto 0);
 
+        frame_o     : out std_logic_vector(FRAME_LEN-1 downto 0);
         led_o       : out std_logic_vector(7 downto 0);
         data_out    : out std_logic;
-        clk_out     : out std_logic
-           );
+        clk_out     : out std_logic;
+
+        pix_count_o : out std_logic_vector(7 downto 0);
+        reg_count_o : out std_logic_vector(7 downto 0)
+        );
 end leds_controller;
 
 architecture Behavioral of leds_controller is
 
 
-    signal shift_counter    : integer := 0;
-    signal pixel_counter    : integer := 0;
+    signal shift_counter    : unsigned(7 downto 0) := (others => '0');
+    signal pixel_counter    : unsigned(7 downto 0) := (others => '0');
     signal clk_counter      : unsigned(7 downto 0) := (others => '0');
     signal bit_clk          : std_logic := '0';
     signal send_data        : std_logic_vector(FRAME_LEN-1 downto 0);
@@ -36,6 +40,9 @@ architecture Behavioral of leds_controller is
 
 begin
     clk_out <= bit_clk;
+    frame_o <= send_data;
+    pix_count_o <= std_logic_vector(pixel_counter);
+    reg_count_o <= std_logic_vector(shift_counter);
 
 -- 1MHz clock generation
     process (clk_i, clk_counter)
@@ -70,9 +77,9 @@ begin
     end process;
 
 -- Construction of the output data.
-    process(clk_i)
+    process(bit_clk, send_data)
     begin
-    if rising_edge(clk_i) then
+    if rising_edge(bit_clk) then
         if (pixel_counter = 0) then
             send_data <= start_frame;
         elsif (pixel_counter = PIXEL_LEN+2-1) then
@@ -85,17 +92,17 @@ begin
 
 
 -- Evolution of the shift register counter
-    process (bit_clk)
+    process (bit_clk, shift_counter, pixel_counter)
     begin
-    if rising_edge(clk_i) then
-        if (shift_counter >= FRAME_LEN-1) then
+    if rising_edge(bit_clk) then
+        if (shift_counter < FRAME_LEN-1) then
             shift_counter <= shift_counter + 1;
         else
-            shift_counter <= 0;
+            shift_counter <= (others => '0');
             -- Increase the pixel counter, or set it to 0 when reaches the
             -- Data frame length.
             if (pixel_counter = PIXEL_LEN+2-1) then
-                pixel_counter <= 0;
+                pixel_counter <= (others => '0');
             else
                 pixel_counter <= pixel_counter + 1;
             end if;
@@ -107,7 +114,7 @@ begin
     process (bit_clk)
     begin
     if rising_edge(bit_clk) then
-        data_out <= send_data(shift_counter);
+        data_out <= send_data(to_integer(shift_counter));
     end if;
     end process;
 
