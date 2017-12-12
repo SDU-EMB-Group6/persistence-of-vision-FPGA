@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
---Date        : Mon Dec 11 15:32:16 2017
+--Date        : Tue Dec 12 14:02:46 2017
 --Host        : javi-SAT-L850-Ubuntu running 64-bit Ubuntu 16.04.3 LTS
 --Command     : generate_target POV_block_design_wrapper.bd
 --Design      : POV_block_design_wrapper
@@ -72,11 +72,11 @@ architecture STRUCTURE of POV_block_design_wrapper is
     sensors_in : in STD_LOGIC_VECTOR ( 2 downto 0 );
     in_halfbridge_out : out STD_LOGIC_VECTOR ( 2 downto 0 );
     inhibit_out : out STD_LOGIC_VECTOR ( 2 downto 0 );
-    led_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
     rx_i : in STD_LOGIC;
     tx_o : out STD_LOGIC;
+    data_out : out STD_LOGIC;
     clk_bit : out STD_LOGIC;
-    data_out : out STD_LOGIC
+    led_o : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component POV_block_design;
 begin

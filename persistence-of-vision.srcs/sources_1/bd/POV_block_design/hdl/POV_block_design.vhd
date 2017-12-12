@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
---Date        : Mon Dec 11 15:32:16 2017
+--Date        : Tue Dec 12 14:02:45 2017
 --Host        : javi-SAT-L850-Ubuntu running 64-bit Ubuntu 16.04.3 LTS
 --Command     : generate_target POV_block_design.bd
 --Design      : POV_block_design
@@ -43,10 +43,10 @@ entity POV_block_design is
     sensors_in : in STD_LOGIC_VECTOR ( 2 downto 0 );
     tx_o : out STD_LOGIC
   );
-  attribute core_generation_info : string;
-  attribute core_generation_info of POV_block_design : entity is "POV_block_design,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=POV_block_design,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=5,numReposBlks=5,numNonXlnxBlks=4,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_ps7_cnt=3,synth_mode=OOC_per_IP}";
-  attribute hw_handoff : string;
-  attribute hw_handoff of POV_block_design : entity is "POV_block_design.hwdef";
+  attribute CORE_GENERATION_INFO : string;
+  attribute CORE_GENERATION_INFO of POV_block_design : entity is "POV_block_design,IP_Integrator,{x_ipVendor=xilinx.com,x_ipLibrary=BlockDiagram,x_ipName=POV_block_design,x_ipVersion=1.00.a,x_ipLanguage=VHDL,numBlks=5,numReposBlks=5,numNonXlnxBlks=4,numHierBlks=0,maxHierDepth=0,numSysgenBlks=0,numHlsBlks=0,numHdlrefBlks=4,numPkgbdBlks=0,bdsource=USER,da_ps7_cnt=3,synth_mode=OOC_per_IP}";
+  attribute HW_HANDOFF : string;
+  attribute HW_HANDOFF of POV_block_design : entity is "POV_block_design.hwdef";
 end POV_block_design;
 
 architecture STRUCTURE of POV_block_design is
@@ -158,9 +158,12 @@ architecture STRUCTURE of POV_block_design is
     write_mem : in STD_LOGIC;
     Umem_addr : in STD_LOGIC_VECTOR ( 5 downto 0 );
     data_in : in STD_LOGIC_VECTOR ( 31 downto 0 );
+    frame_o : out STD_LOGIC_VECTOR ( 31 downto 0 );
     led_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
     data_out : out STD_LOGIC;
-    clk_out : out STD_LOGIC
+    clk_out : out STD_LOGIC;
+    pix_count_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
+    reg_count_o : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component POV_block_design_leds_controller_0_0;
   signal PWM_generator_0_pwm_out : STD_LOGIC;
@@ -200,6 +203,9 @@ architecture STRUCTURE of POV_block_design is
   signal unity_ctrl_0_mem_data_out : STD_LOGIC_VECTOR ( 31 downto 0 );
   signal unity_ctrl_0_tx_o : STD_LOGIC;
   signal unity_ctrl_0_write_mem : STD_LOGIC;
+  signal NLW_leds_controller_0_frame_o_UNCONNECTED : STD_LOGIC_VECTOR ( 31 downto 0 );
+  signal NLW_leds_controller_0_pix_count_o_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
+  signal NLW_leds_controller_0_reg_count_o_UNCONNECTED : STD_LOGIC_VECTOR ( 7 downto 0 );
   signal NLW_processing_system7_0_FCLK_CLK2_UNCONNECTED : STD_LOGIC;
   signal NLW_processing_system7_0_FCLK_RESET0_N_UNCONNECTED : STD_LOGIC;
   signal NLW_processing_system7_0_M_AXI_GP0_ARVALID_UNCONNECTED : STD_LOGIC;
@@ -263,7 +269,10 @@ leds_controller_0: component POV_block_design_leds_controller_0_0
       clk_out => leds_controller_0_clk_out,
       data_in(31 downto 0) => unity_ctrl_0_mem_data_out(31 downto 0),
       data_out => leds_controller_0_data_out,
+      frame_o(31 downto 0) => NLW_leds_controller_0_frame_o_UNCONNECTED(31 downto 0),
       led_o(7 downto 0) => leds_controller_0_led_o(7 downto 0),
+      pix_count_o(7 downto 0) => NLW_leds_controller_0_pix_count_o_UNCONNECTED(7 downto 0),
+      reg_count_o(7 downto 0) => NLW_leds_controller_0_reg_count_o_UNCONNECTED(7 downto 0),
       write_mem => unity_ctrl_0_write_mem
     );
 processing_system7_0: component POV_block_design_processing_system7_0_0
