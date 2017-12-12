@@ -1,0 +1,6 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../persistence-of-vision.ip_user_files/leds_controller.vhd"
+vhdl xil_defaultlib  "../../../persistence-of-vision.ip_user_files/Sim/TB_leds_controller.vhd"
+
+# Do not sort compile order
+nosort
