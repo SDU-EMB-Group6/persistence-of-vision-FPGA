@@ -11,7 +11,9 @@ entity PWM_generator is
     Port( 
         clk_200mhz_in : in std_logic;
         pwm_duty_in   : std_logic_vector (7 downto 0) := x"80";
-        pwm_out       : out std_logic := '0'
+        pwm_out       : out std_logic := '0';
+        stop        : in std_logic;
+        start       : in std_logic
         );
 end PWM_generator;
 
@@ -22,6 +24,7 @@ architecture Behavioral of PWM_generator is
     signal count_direction  : std_logic := '0';
     signal scaled_CLK       : std_logic := '0';
     signal scaler_counter   : integer := 0;
+    signal running           : std_logic := '0';
 begin
 
 -- Prescaler
@@ -63,10 +66,23 @@ end process;
 -- selected duty cycle is set the pwm signal low - otherwise it is high.
 duty_compare: process(clk_200mhz_in)
 begin
-    if(count >= to_integer(unsigned(pwm_duty_in))) then
-        pwm_out <= '0';
-     else
-        pwm_out <= '1';
-     end if;
+    if(running = '1') then
+        if(count >= to_integer(unsigned(pwm_duty_in))) then
+            pwm_out <= '0';
+         else
+            pwm_out <= '1';
+         end if;
+    end if;
+end process;
+
+startstop: process(start,stop)
+begin
+    if(rising_edge(start)) then
+        running <= '1';
+        end if;
+     if(rising_edge(stop)) then
+         running <= '0';
+        end if;
 end process;
 end Behavioral;
+
