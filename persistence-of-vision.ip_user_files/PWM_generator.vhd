@@ -5,15 +5,15 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity PWM_generator is
     generic( 
-            CLK_FREQ  : integer := 200000000; -- 200 MHz clock
-            PWM_FREQ  : integer := 21000  -- 21 KHz pwm freq
+        CLK_FREQ      : integer := 200000000;   -- 200 MHz clock
+        PWM_FREQ      : integer := 21000        -- 21 KHz pwm freq
     );
     Port( 
         clk_200mhz_in : in std_logic;
         pwm_duty_in   : std_logic_vector (7 downto 0) := x"80";
         pwm_out       : out std_logic := '0';
-        stop        : in std_logic;
-        start       : in std_logic
+        stop          : in std_logic;
+        start         : in std_logic
         );
 end PWM_generator;
 
@@ -24,7 +24,7 @@ architecture Behavioral of PWM_generator is
     signal count_direction  : std_logic := '0';
     signal scaled_CLK       : std_logic := '0';
     signal scaler_counter   : integer := 0;
-    signal running           : std_logic := '0';
+    signal running          : std_logic := '0';
 begin
 
 -- Prescaler
@@ -72,17 +72,19 @@ begin
          else
             pwm_out <= '1';
          end if;
+    else
+        pwm_out <= '0';
     end if;
 end process;
 
 startstop: process(start,stop)
 begin
-    if(rising_edge(start)) then
+    if(rising_edge(stop)) then
+        running <= '0';
+    end if;
+    if(rising_edge(start) and stop = '0') then
         running <= '1';
-        end if;
-     if(rising_edge(stop)) then
-         running <= '0';
-        end if;
+    end if;
 end process;
 end Behavioral;
 

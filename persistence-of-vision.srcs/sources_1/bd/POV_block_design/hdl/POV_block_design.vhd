@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
---Date        : Tue Dec 12 14:02:45 2017
+--Date        : Fri Dec 22 12:50:19 2017
 --Host        : javi-SAT-L850-Ubuntu running 64-bit Ubuntu 16.04.3 LTS
 --Command     : generate_target POV_block_design.bd
 --Design      : POV_block_design
@@ -41,6 +41,8 @@ entity POV_block_design is
     led_o : out STD_LOGIC_VECTOR ( 7 downto 0 );
     rx_i : in STD_LOGIC;
     sensors_in : in STD_LOGIC_VECTOR ( 2 downto 0 );
+    start : in STD_LOGIC;
+    stop : in STD_LOGIC;
     tx_o : out STD_LOGIC
   );
   attribute CORE_GENERATION_INFO : string;
@@ -133,13 +135,6 @@ architecture STRUCTURE of POV_block_design is
     sensors_in : in STD_LOGIC_VECTOR ( 2 downto 0 )
   );
   end component POV_block_design_bldc_decoder_0_0;
-  component POV_block_design_PWM_generator_0_0 is
-  port (
-    clk_200mhz_in : in STD_LOGIC;
-    pwm_duty_in : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    pwm_out : out STD_LOGIC
-  );
-  end component POV_block_design_PWM_generator_0_0;
   component POV_block_design_unity_ctrl_0_0 is
   port (
     clk_i : in STD_LOGIC;
@@ -166,6 +161,15 @@ architecture STRUCTURE of POV_block_design is
     reg_count_o : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component POV_block_design_leds_controller_0_0;
+  component POV_block_design_PWM_generator_0_0 is
+  port (
+    clk_200mhz_in : in STD_LOGIC;
+    pwm_duty_in : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    pwm_out : out STD_LOGIC;
+    stop : in STD_LOGIC;
+    start : in STD_LOGIC
+  );
+  end component POV_block_design_PWM_generator_0_0;
   signal PWM_generator_0_pwm_out : STD_LOGIC;
   signal bldc_decoder_0_in_halfbridge_out : STD_LOGIC_VECTOR ( 2 downto 0 );
   signal bldc_decoder_0_inhibit_out : STD_LOGIC_VECTOR ( 2 downto 0 );
@@ -197,6 +201,8 @@ architecture STRUCTURE of POV_block_design is
   signal processing_system7_0_FIXED_IO_PS_SRSTB : STD_LOGIC;
   signal rx_i_1 : STD_LOGIC;
   signal sensors_in_1 : STD_LOGIC_VECTOR ( 2 downto 0 );
+  signal start_1 : STD_LOGIC;
+  signal stop_1 : STD_LOGIC;
   signal unity_ctrl_0_Umem_addr_i : STD_LOGIC_VECTOR ( 5 downto 0 );
   signal unity_ctrl_0_clk_out : STD_LOGIC;
   signal unity_ctrl_0_duty_cycle_o : STD_LOGIC_VECTOR ( 7 downto 0 );
@@ -248,12 +254,16 @@ begin
   led_o(7 downto 0) <= leds_controller_0_led_o(7 downto 0);
   rx_i_1 <= rx_i;
   sensors_in_1(2 downto 0) <= sensors_in(2 downto 0);
+  start_1 <= start;
+  stop_1 <= stop;
   tx_o <= unity_ctrl_0_tx_o;
 PWM_generator_0: component POV_block_design_PWM_generator_0_0
      port map (
       clk_200mhz_in => processing_system7_0_FCLK_CLK1,
       pwm_duty_in(7 downto 0) => unity_ctrl_0_duty_cycle_o(7 downto 0),
-      pwm_out => PWM_generator_0_pwm_out
+      pwm_out => PWM_generator_0_pwm_out,
+      start => start_1,
+      stop => stop_1
     );
 bldc_decoder_0: component POV_block_design_bldc_decoder_0_0
      port map (
