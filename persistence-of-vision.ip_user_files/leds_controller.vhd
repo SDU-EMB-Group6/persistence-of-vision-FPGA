@@ -32,11 +32,14 @@ architecture Behavioral of leds_controller is
     signal clk_counter      : unsigned(7 downto 0) := (others => '0');
     signal bit_clk          : std_logic := '0';
     signal send_data        : std_logic_vector(FRAME_LEN-1 downto 0);
-    signal pixel_data       : std_logic_vector(FRAME_LEN-1 downto 0);
+    --signal pixel_data       : std_logic_vector(FRAME_LEN-1 downto 0);
     signal start_frame      : std_logic_vector(FRAME_LEN-1 downto 0) 
                                     := (others => '0');
     signal end_frame        : std_logic_vector(FRAME_LEN-1 downto 0) 
                                     := (others => '1');
+    
+    type pix_array is array(1 to 10) of std_logic_vector(FRAME_LEN-1 downto 0);
+    signal pixel_data : pix_array;
 
 begin
     clk_out <= bit_clk;
@@ -69,7 +72,17 @@ begin
         if(write_mem = '1') then
             case Umem_addr is
               when "000100" => led_o <= data_in(7 downto 0);
-              when "000110" => pixel_data <= data_in(FRAME_LEN-1 downto 0);
+              -- Registers of the 10 LEDs
+              when "000010" => pixel_data(1) <= data_in(FRAME_LEN-1 downto 0);
+              when "000110" => pixel_data(2) <= data_in(FRAME_LEN-1 downto 0);
+              when "001000" => pixel_data(3) <= data_in(FRAME_LEN-1 downto 0);
+              when "001010" => pixel_data(4) <= data_in(FRAME_LEN-1 downto 0);
+              when "001100" => pixel_data(5) <= data_in(FRAME_LEN-1 downto 0);
+              when "001110" => pixel_data(6) <= data_in(FRAME_LEN-1 downto 0);
+              when "010000" => pixel_data(7) <= data_in(FRAME_LEN-1 downto 0);
+              when "010010" => pixel_data(8) <= data_in(FRAME_LEN-1 downto 0);
+              when "010100" => pixel_data(9) <= data_in(FRAME_LEN-1 downto 0);
+              when "010110" => pixel_data(10) <= data_in(FRAME_LEN-1 downto 0);
               when others =>
             end case;
         end if;
@@ -85,7 +98,7 @@ begin
         elsif (pixel_counter = PIXEL_LEN+2-1) then
             send_data <= end_frame;
         else
-            send_data <= pixel_data;
+            send_data <= pixel_data(to_integer(pixel_counter));
         end if;
     end if;
     end process;

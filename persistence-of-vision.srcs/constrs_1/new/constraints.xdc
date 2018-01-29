@@ -43,3 +43,8 @@ set_property PACKAGE_PIN M12 [get_ports data_out]
 
 set_property IOSTANDARD LVCMOS33 [get_ports clk_bit]
 set_property PACKAGE_PIN N13 [get_ports clk_bit]
+
+set_property IOSTANDARD LVCMOS33 [get_ports start]
+set_property IOSTANDARD LVCMOS33 [get_ports stop]
+set_property PACKAGE_PIN L14 [get_ports start]
+set_property PACKAGE_PIN L15 [get_ports stop]

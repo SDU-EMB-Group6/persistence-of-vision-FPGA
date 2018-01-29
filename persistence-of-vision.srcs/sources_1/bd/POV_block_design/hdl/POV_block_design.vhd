@@ -1,7 +1,7 @@
 --Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------
 --Tool Version: Vivado v.2017.2 (lin64) Build 1909853 Thu Jun 15 18:39:10 MDT 2017
---Date        : Fri Dec 22 12:50:19 2017
+--Date        : Mon Jan 29 15:36:07 2018
 --Host        : javi-SAT-L850-Ubuntu running 64-bit Ubuntu 16.04.3 LTS
 --Command     : generate_target POV_block_design.bd
 --Design      : POV_block_design
@@ -147,6 +147,15 @@ architecture STRUCTURE of POV_block_design is
     data_o : out STD_LOGIC_VECTOR ( 31 downto 0 )
   );
   end component POV_block_design_unity_ctrl_0_0;
+  component POV_block_design_PWM_generator_0_0 is
+  port (
+    clk_200mhz_in : in STD_LOGIC;
+    pwm_duty_in : in STD_LOGIC_VECTOR ( 7 downto 0 );
+    pwm_out : out STD_LOGIC;
+    stop : in STD_LOGIC;
+    start : in STD_LOGIC
+  );
+  end component POV_block_design_PWM_generator_0_0;
   component POV_block_design_leds_controller_0_0 is
   port (
     clk_i : in STD_LOGIC;
@@ -161,15 +170,6 @@ architecture STRUCTURE of POV_block_design is
     reg_count_o : out STD_LOGIC_VECTOR ( 7 downto 0 )
   );
   end component POV_block_design_leds_controller_0_0;
-  component POV_block_design_PWM_generator_0_0 is
-  port (
-    clk_200mhz_in : in STD_LOGIC;
-    pwm_duty_in : in STD_LOGIC_VECTOR ( 7 downto 0 );
-    pwm_out : out STD_LOGIC;
-    stop : in STD_LOGIC;
-    start : in STD_LOGIC
-  );
-  end component POV_block_design_PWM_generator_0_0;
   signal PWM_generator_0_pwm_out : STD_LOGIC;
   signal bldc_decoder_0_in_halfbridge_out : STD_LOGIC_VECTOR ( 2 downto 0 );
   signal bldc_decoder_0_inhibit_out : STD_LOGIC_VECTOR ( 2 downto 0 );
